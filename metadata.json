@@ -1,0 +1,6 @@
+{
+  "name": "Chibi Maker",
+  "description": "Un'applicazione interattiva per creare e personalizzare avatar chibi con abiti, capelli, accessori, regolazioni di posizione e dimensioni, e download in alta risoluzione.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
