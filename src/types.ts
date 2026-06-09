@@ -12,7 +12,7 @@ export type NoseStyle = 'none' | 'dot' | 'cute' | 'button' | 'blush' | 'heart' |
 
 export type BangsStyle = 'straight' | 'spiky' | 'wispy' | 'side' | 'curly' | 'none';
 
-export type BackHairStyle = 'short' | 'wavy' | 'twintails' | 'ponytail' | 'buns' | 'spiky' | 'none';
+export type BackHairStyle = 'short' | 'wavy' | 'twintails' | 'ponytail' | 'buns' | 'spiky' | 'crop_cut' | 'none';
 
 export type TopStyle = 'hoodie' | 'sailor' | 'shirt' | 'sweater' | 'gothic' | 'tshirt' | 'kimono' | 'armor' | 'maid' | 'party_suit' | 'none';
 
@@ -34,6 +34,8 @@ export type TailStyle = 'none' | 'cat_tail' | 'devil_tail' | 'bunny_tail' | 'fox
 
 export type FaceAccessory = 'none' | 'whiskers' | 'band_aid' | 'freckles' | 'star_cheek' | 'blush_heart';
 
+export type EyelashesStyle = 'none' | 'classic' | 'anime';
+
 export interface PositionScale {
   x: number;
   y: number;
@@ -53,6 +55,7 @@ export interface ChibiConfig {
   
   // Eyes
   eyeStyle: EyeStyle;
+  eyelashesStyle: EyelashesStyle;
   eyeColor: string;
   eyebrowStyle: EyebrowStyle;
   eyeSize: number;       // scale factor: e.g. 0.8 to 1.3

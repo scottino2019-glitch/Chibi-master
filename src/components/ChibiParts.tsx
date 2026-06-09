@@ -11,6 +11,7 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
   const {
     skinColor,
     eyeColor,
+    eyelashesStyle,
     hairColor,
     hairAccentColor,
     clothesColor1,
@@ -126,6 +127,13 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
   // Render Back Hair
   const renderBackHair = () => {
     switch (backHairStyle) {
+      case 'crop_cut':
+        return (
+          <g id="back_hair_crop_cut" transform={`translate(0, ${hairYOffset}) scale(${hairSize})`} transformOrigin="200 160">
+            {/* Short cropped hair tailored above the neck, perfect for boyish/sporty styles */}
+            <path d="M 124,152 C 122,175 140,192 165,192 C 180,192 188,187 200,187 C 212,187 220,192 235,192 C 260,192 278,175 276,152 C 285,160 286,170 274,185 C 260,202 245,202 230,198 C 215,194 185,194 170,198 C 155,202 140,202 126,185 C 114,170 115,160 124,152 Z" fill={hairColor} stroke="#1f1f1f" strokeWidth="3" />
+          </g>
+        );
       case 'short':
         return (
           <g id="back_hair_short" transform={`translate(0, ${hairYOffset}) scale(${hairSize})`} transformOrigin="200 160">
@@ -204,8 +212,12 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
         return (
           <g transform={`scale(${eyeSize})`} transformOrigin={`${cx} ${eyesY}`}>
             <path d={`M ${cx - 20},${eyesY - 5} Q ${cx},${eyesY + 15} ${cx + 20},${eyesY - 5}`} fill="none" stroke="#1f1f1f" strokeWidth="5" strokeLinecap="round" />
-            <path d={`M ${cx - 15},${eyesY + 4} L ${cx - 20},${eyesY + 10}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
-            <path d={`M ${cx + 15},${eyesY + 4} L ${cx + 20},${eyesY + 10}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+            {eyelashesStyle !== 'none' && (
+              <>
+                <path d={`M ${cx - 15},${eyesY + 4} L ${cx - 20},${eyesY + 10}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+                <path d={`M ${cx + 15},${eyesY + 4} L ${cx + 20},${eyesY + 10}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+              </>
+            )}
           </g>
         );
       }
@@ -224,10 +236,29 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
           <ellipse cx={cx + 6} cy={eyesY + 7} rx="3" ry="3" fill="#ffffff" />
           <circle cx={cx - 3} cy={eyesY + 11} r="1.5" fill="#ffffff" opacity="0.8" />
           
-          {/* Cute eyelashes styling */}
-          <path d={`M ${cx - 22},${eyesY - 14} Q ${cx},${eyesY - 24} ${cx + 22},${eyesY - 14}`} fill="none" stroke="#1d1d1f" strokeWidth="5" strokeLinecap="round" />
-          <path d={`M ${cx - 18},${eyesY - 18} Q ${cx - 26},${eyesY - 24} ${cx - 25},${eyesY - 16}`} fill="none" stroke="#1d1d1f" strokeWidth="3.5" strokeLinecap="round" />
-          <path d={`M ${cx + 18},${eyesY - 18} Q ${cx + 26},${eyesY - 24} ${cx + 25},${eyesY - 16}`} fill="none" stroke="#1d1d1f" strokeWidth="3.5" strokeLinecap="round" />
+          {/* Cute eyelashes styling based on eyelashesStyle */}
+          {eyelashesStyle === 'anime' && (
+            <>
+              <path d={`M ${cx - 22},${eyesY - 14} Q ${cx},${eyesY - 24} ${cx + 22},${eyesY - 14}`} fill="none" stroke="#1d1d1f" strokeWidth="5" strokeLinecap="round" />
+              <path d={`M ${cx - 18},${eyesY - 18} Q ${cx - 28},${eyesY - 26} ${cx - 26},${eyesY - 15}`} fill="none" stroke="#1d1d1f" strokeWidth="3.5" strokeLinecap="round" />
+              <path d={`M ${cx + 18},${eyesY - 18} Q ${cx + 26},${eyesY - 26} ${cx + 25},${eyesY - 15}`} fill="none" stroke="#1d1d1f" strokeWidth="3.5" strokeLinecap="round" />
+              <path d={`M ${cx - 12},${eyesY - 20} L ${cx - 16},${eyesY - 26}`} stroke="#1d1d1f" strokeWidth="2.5" />
+              <path d={`M ${cx + 12},${eyesY - 20} L ${cx + 16},${eyesY - 26}`} stroke="#1d1d1f" strokeWidth="2.5" />
+            </>
+          )}
+          {eyelashesStyle === 'classic' && (
+            <>
+              <path d={`M ${cx - 22},${eyesY - 14} Q ${cx},${eyesY - 24} ${cx + 22},${eyesY - 14}`} fill="none" stroke="#1d1d1f" strokeWidth="5" strokeLinecap="round" />
+              <path d={`M ${cx - 18},${eyesY - 18} Q ${cx - 26},${eyesY - 24} ${cx - 25},${eyesY - 16}`} fill="none" stroke="#1d1d1f" strokeWidth="3.5" strokeLinecap="round" />
+              <path d={`M ${cx + 18},${eyesY - 18} Q ${cx + 26},${eyesY - 24} ${cx + 25},${eyesY - 16}`} fill="none" stroke="#1d1d1f" strokeWidth="3.5" strokeLinecap="round" />
+            </>
+          )}
+          {eyelashesStyle === 'none' && (
+            <>
+              {/* Sleek boy-ish/neutral eyelid without side eyelashes */}
+              <path d={`M ${cx - 20},${eyesY - 15} Q ${cx},${eyesY - 22} ${cx + 20},${eyesY - 15}`} fill="none" stroke="#1d1d1f" strokeWidth="4.5" strokeLinecap="round" />
+            </>
+          )}
         </g>
       );
     };
@@ -242,12 +273,36 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
       }
       return (
         <g id="round_eye" transform={`scale(${eyeSize})`} transformOrigin={`${cx} ${eyesY}`}>
-          <circle cx={cx} cy={eyesY} r="18" fill="#1c1c1f" />
+          {/* Eyeline background / Sclera */}
+          <circle cx={cx} cy={eyesY} r="18" fill="#ffffff" stroke="#1f1f1f" strokeWidth="3" />
+          {/* Iris color! (Fixes "non si applicano i colori degli occhi") */}
+          <circle cx={cx} cy={eyesY + 1} r="14" fill={eyeColor} />
+          {/* Pupil */}
+          <circle cx={cx} cy={eyesY + 2} r="8" fill="#1c1c1f" />
+          
           {/* Cute large glint */}
-          <circle cx={cx - 5} cy={eyesY - 5} r="6" fill="#ffffff" />
-          <circle cx={cx + 5} cy={eyesY + 5} r="2.5" fill="#ffffff" />
-          {/* Eyelash lid */}
-          <path d={`M ${cx - 21},${eyesY - 10} Q ${cx},${eyesY - 18} ${cx + 21},${eyesY - 10}`} fill="none" stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
+          <circle cx={cx - 5} cy={eyesY - 4} r="5" fill="#ffffff" />
+          <circle cx={cx + 5} cy={eyesY + 5} r="2" fill="#ffffff" />
+          
+          {/* Eyelash lid based on eyelashesStyle */}
+          {eyelashesStyle === 'anime' && (
+            <>
+              <path d={`M ${cx - 21},${eyesY - 10} Q ${cx},${eyesY - 18} ${cx + 21},${eyesY - 10}`} fill="none" stroke="#1f1f1f" strokeWidth="4.5" strokeLinecap="round" />
+              <path d={`M ${cx - 16},${eyesY - 14} Q ${cx - 24},${eyesY - 18} ${cx - 21},${eyesY - 11}`} fill="none" stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+              <path d={`M ${cx + 16},${eyesY - 14} Q ${cx + 24},${eyesY - 18} ${cx + 21},${eyesY - 11}`} fill="none" stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+            </>
+          )}
+          {eyelashesStyle === 'classic' && (
+            <>
+              <path d={`M ${cx - 21},${eyesY - 10} Q ${cx},${eyesY - 18} ${cx + 21},${eyesY - 10}`} fill="none" stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
+            </>
+          )}
+          {eyelashesStyle === 'none' && (
+            <>
+              {/* Sleek clean boy-ish lid */}
+              <path d={`M ${cx - 19},${eyesY - 13} Q ${cx},${eyesY - 18} ${cx + 19},${eyesY - 13}`} fill="none" stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
+            </>
+          )}
         </g>
       );
     };
@@ -257,8 +312,12 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
         <g transform={`scale(${eyeSize})`} transformOrigin={`${cx} ${eyesY}`}>
           <path d={`M ${cx - 20},${eyesY - 5} Q ${cx},${eyesY + 12} ${cx + 20},${eyesY - 5}`} fill="none" stroke="#1f1f1f" strokeWidth="5.5" strokeLinecap="round" />
           {/* Small eyelashes flares */}
-          <path d={`M ${cx - 12},${eyesY + 4} L ${cx - 17},${eyesY + 12}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
-          <path d={`M ${cx + 12},${eyesY + 4} L ${cx + 17},${eyesY + 12}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+          {eyelashesStyle !== 'none' && (
+            <>
+              <path d={`M ${cx - 12},${eyesY + 4} L ${cx - 17},${eyesY + 12}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+              <path d={`M ${cx + 12},${eyesY + 4} L ${cx + 17},${eyesY + 12}`} stroke="#1f1f1f" strokeWidth="3" strokeLinecap="round" />
+            </>
+          )}
         </g>
       );
     };
@@ -267,8 +326,12 @@ export const ChibiParts: React.FC<ChibiPartsProps> = ({ config, className = "", 
       return (
         <g transform={`scale(${eyeSize})`} transformOrigin={`${cx} ${eyesY}`}>
           <path d={`M ${cx - 18},${eyesY + 5} Q ${cx},${eyesY - 13} ${cx + 18},${eyesY + 5}`} fill="none" stroke="#1f1f1f" strokeWidth="5.5" strokeLinecap="round" />
-          <path d={`M ${cx - 15},${eyesY - 3} L ${cx - 22},${eyesY - 10}`} stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
-          <path d={`M ${cx + 15},${eyesY - 3} L ${cx + 22},${eyesY - 10}`} stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
+          {eyelashesStyle !== 'none' && (
+            <>
+              <path d={`M ${cx - 15},${eyesY - 3} L ${cx - 22},${eyesY - 10}`} stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
+              <path d={`M ${cx + 15},${eyesY - 3} L ${cx + 22},${eyesY - 10}`} stroke="#1f1f1f" strokeWidth="3.5" strokeLinecap="round" />
+            </>
+          )}
         </g>
       );
     };

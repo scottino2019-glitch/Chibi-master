@@ -76,6 +76,31 @@ export default function App() {
     triggerToast('Resettato alla configurazione originale!');
   };
 
+  // Switch between basic genders/styles instantly
+  const applyGenderVibe = (vibe: 'boy' | 'girl') => {
+    if (vibe === 'boy') {
+      setConfig(prev => ({
+        ...prev,
+        eyelashesStyle: 'none',
+        bangsStyle: prev.bangsStyle === 'curly' ? 'side' : prev.bangsStyle,
+        backHairStyle: 'crop_cut',
+        topStyle: prev.topStyle === 'maid' || prev.topStyle === 'gothic' ? 'hoodie' : prev.topStyle,
+        bottomStyle: prev.bottomStyle === 'skirt' || prev.bottomStyle === 'magical_dress' || prev.bottomStyle === 'frills' ? 'pants' : prev.bottomStyle,
+        gender: prev.gender === 'baby_suit' ? 'baby_suit' : 'base'
+      }));
+      triggerToast('Stile Ragazzo applicato! 👦 (Capelli cortissimi, ciglia rimosse e pantaloni)');
+    } else {
+      setConfig(prev => ({
+        ...prev,
+        eyelashesStyle: 'classic',
+        backHairStyle: prev.backHairStyle === 'short' || prev.backHairStyle === 'none' || prev.backHairStyle === 'crop_cut' ? 'twintails' : prev.backHairStyle,
+        topStyle: prev.topStyle === 'none' ? 'sweater' : prev.topStyle,
+        bottomStyle: prev.bottomStyle === 'pants' || prev.bottomStyle === 'none' ? 'skirt' : prev.bottomStyle,
+      }));
+      triggerToast('Stile Ragazza applicato! 👧 (Ciglia classiche, capelli lunghi e gonnelline)');
+    }
+  };
+
   // Randomize all attributes to get a super cute unexpected Chibi!
   const handleRandomize = () => {
     const genders: GenderBase[] = ['base', 'slender', 'baby_suit'];
@@ -85,7 +110,7 @@ export default function App() {
     const mouths: MouthStyle[] = ['dot', 'cat', 'smile', 'surprise', 'tongue', 'blush'];
     const noses: NoseStyle[] = ['none', 'dot', 'cute', 'button'];
     const bangs: BangsStyle[] = ['straight', 'spiky', 'wispy', 'side', 'curly'];
-    const backHairs: BackHairStyle[] = ['short', 'wavy', 'twintails', 'ponytail', 'buns', 'spiky'];
+    const backHairs: BackHairStyle[] = ['short', 'wavy', 'twintails', 'ponytail', 'buns', 'spiky', 'crop_cut', 'none'];
     const tops: TopStyle[] = ['hoodie', 'sailor', 'shirt', 'sweater', 'gothic', 'tshirt'];
     const bottoms: BottomStyle[] = ['skirt', 'pants', 'shorts', 'dress_extension'];
     const headwears: HeadwearStyle[] = ['cat_ears', 'bear_beanie', 'witch_hat', 'flower', 'halo', 'horns', 'none'];
@@ -109,6 +134,7 @@ export default function App() {
       skinColor: skin,
       
       eyeStyle: eyeStyles[Math.floor(Math.random() * eyeStyles.length)],
+      eyelashesStyle: (['none', 'classic', 'anime'] as const)[Math.floor(Math.random() * 3)],
       eyeColor: eye,
       eyebrowStyle: eyebrows[Math.floor(Math.random() * eyebrows.length)],
       eyeSize: parseFloat((0.85 + Math.random() * 0.35).toFixed(2)),
@@ -571,6 +597,30 @@ export default function App() {
                     <p className="text-xs text-slate-500">Definisci il tipo di corpo base, le pose e la tonalità della pelle del tuo Chibi.</p>
                   </div>
 
+                  {/* Quick Vibe Preset Selection - Maschietto vs Femminuccia */}
+                  <div className="bg-gradient-to-r from-pink-500/5 to-blue-500/5 p-4 rounded-2xl border border-slate-200/80 flex flex-col gap-3">
+                    <div>
+                      <span className="text-xs font-black text-slate-850 uppercase tracking-wide">Preimpostazione Rapida del Genere 🎭</span>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Trasforma questo Chibi all&apos;istante in un adorabile Ragazzo o Ragazza con un solo click!</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => applyGenderVibe('boy')}
+                        className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-blue-200 bg-blue-50/60 hover:bg-blue-100/80 text-blue-850 text-xs font-black transition shadow-sm active:scale-95"
+                      >
+                        <span className="text-base">👦</span>
+                        <span>Modello Maschietto</span>
+                      </button>
+                      <button
+                        onClick={() => applyGenderVibe('girl')}
+                        className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-pink-200 bg-pink-50/60 hover:bg-pink-100/80 text-pink-850 text-xs font-black transition shadow-sm active:scale-95"
+                      >
+                        <span className="text-base">👧</span>
+                        <span>Modello Femminuccia</span>
+                      </button>
+                    </div>
+                  </div>
+
                   {/* Body gender selection */}
                   <div className="flex flex-col gap-2.5">
                     <label className="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Tipo di Corpo & Costume</label>
@@ -697,6 +747,30 @@ export default function App() {
                           className={`py-2 px-1.5 rounded-xl border text-center transition ${config.eyeStyle === item.key ? 'bg-pink-50 border-pink-500 ring-1 ring-pink-500/20' : 'bg-slate-50 hover:bg-slate-100 border-slate-200'}`}
                         >
                           <span className="text-[11px] font-extrabold text-slate-800">{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Eyelashes style choice (Feminine vs Boy style eyelashes) */}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                      <label className="text-xs font-extrabold text-slate-700 uppercase tracking-wider font-sans">Ciglia & Tratto Viso (Genere / Vibe Maschietto)</label>
+                      <span className="text-[10px] font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-full font-mono">Tratto del Volto</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {[
+                        { key: 'none', label: 'Nessuna / Ragazzo 👦', desc: 'Tratto pulito sbarazzino, perfetto per maschietti' },
+                        { key: 'classic', label: 'Classiche Chibi 👧', desc: 'Le graziose ciglia curve classiche' },
+                        { key: 'anime', label: 'Anime Star ✨', desc: 'Stile idol pop, ciglia folte e dettagliate' }
+                      ].map((item) => (
+                        <button
+                          key={item.key}
+                          onClick={() => setConfig(prev => ({ ...prev, eyelashesStyle: item.key as any }))}
+                          className={`flex flex-col items-start p-3 rounded-xl border transition text-left ${config.eyelashesStyle === item.key ? 'bg-pink-50/70 border-pink-500 ring-2 ring-pink-500/10' : 'bg-white hover:bg-slate-100 border-slate-200'}`}
+                        >
+                          <span className="text-[11px] font-extrabold text-slate-800">{item.label}</span>
+                          <span className="text-[9px] mt-1 leading-normal text-slate-500">{item.desc}</span>
                         </button>
                       ))}
                     </div>
@@ -1009,14 +1083,16 @@ export default function App() {
                   {/* Back Hair Style */}
                   <div className="flex flex-col gap-2.5">
                     <label className="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Retro / Coda / Codini (Back Hair)</label>
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                    <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
                       {[
+                        { key: 'crop_cut', label: 'Corti / Rasati 👦' },
                         { key: 'short', label: 'Caschetto' },
                         { key: 'wavy', label: 'Lunghi Mossi' },
                         { key: 'twintails', label: 'Due Codini' },
                         { key: 'ponytail', label: 'Coda Alta' },
                         { key: 'buns', label: 'Space Buns' },
-                        { key: 'spiky', label: 'Spiky' }
+                        { key: 'spiky', label: 'Spiky' },
+                        { key: 'none', label: 'Nessuno' }
                       ].map((item) => (
                         <button
                           key={item.key}
